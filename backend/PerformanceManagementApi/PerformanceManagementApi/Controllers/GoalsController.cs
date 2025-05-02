@@ -27,17 +27,18 @@ namespace PerformanceManagementApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PerformanceGoal>> CreateGoal(PerformanceGoal goal)
+        public async Task<ActionResult<PerformanceGoal>> PostPerformanceGoal(PerformanceGoal performanceGoal)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.PerformanceGoals.Add(goal);
+            _context.PerformanceGoals.Add(performanceGoal);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetGoals), new { id = goal.Id }, goal);
+            // Use GetGoals instead of GetPerformanceGoal (assuming it's a typo unless defined)
+            return CreatedAtAction(nameof(GetGoals), new { id = performanceGoal.Id }, performanceGoal);
         }
 
         [HttpPut("{id}")]

@@ -1,38 +1,173 @@
+/* Reset default styles and set global font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
 .App {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+h1 {
   text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  font-weight: 700;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h2 {
+  color: #34495e;
+  margin: 20px 0;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Error message */
+p[style*="color: red"] {
+  text-align: center;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Form styling */
+form {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+select,
+input[type="text"],
+input[type="date"] {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 200px;
+  transition: border-color 0.3s ease;
+}
+
+select:focus,
+input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
   color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: #2980b9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Employee list styling */
+ul {
+  list-style: none;
+}
+
+ul li {
+  background-color: #ffffff;
+  margin: 15px 0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+ul li:hover {
+  transform: translateY(-2px);
+}
+
+ul li strong {
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+/* Nested goals list */
+ul li ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+ul li ul li {
+  background-color: #f1f8ff;
+  border-left: 3px solid #3498db;
+  padding: 10px;
+  margin: 5px 0;
+  box-shadow: none;
+}
+
+ul li ul li strong {
+  color: #2980b9;
+  font-size: 1rem;
+}
+
+ul li ul li:hover {
+  transform: none;
+}
+
+/* No goals message */
+ul li p {
+  color: #7f8c8d;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* Loading message */
+p:not([style*="color: red"]) {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .App {
+    margin: 20px;
+    padding: 15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  select,
+  input[type="text"],
+  input[type="date"] {
+    min-width: 100%;
   }
 }
