@@ -1,0 +1,13 @@
+ 
+# Visual Studio files 
+.vs/ 
+*.suo 
+*.user 
+ 
+# ASP.NET Core build outputs 
+bin/ 
+obj/ 
+ 
+# NuGet Packages 
+*.nupkg 
+packages/ 
