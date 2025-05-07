@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PerformanceManagementApi.Models
 {
-    public class PerformanceGoal
+    public class PerformanceGoalDto
     {
         public int Id { get; set; }
 
@@ -22,17 +21,5 @@ namespace PerformanceManagementApi.Models
 
         [Required]
         public GoalStatus Status { get; set; }
-
-        // Added the [ValidateNever] attribute here to avoid validation errors
-        [ValidateNever]
-        public Employee? Employee { get; set; }
-    }
-
-    public enum GoalStatus
-    {
-        NotStarted,
-        InProgress,
-        Completed,
-        Cancelled
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PerformanceManagementApi.Data;
 using PerformanceManagementApi.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PerformanceManagementApi.Controllers
@@ -27,24 +28,41 @@ namespace PerformanceManagementApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PerformanceGoal>> PostPerformanceGoal(PerformanceGoal performanceGoal)
+        public async Task<ActionResult<PerformanceGoal>> PostPerformanceGoal([FromBody] PerformanceGoalDto performanceGoalDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                // Debugging: Output model state validation errors
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                return BadRequest(new { title = "Validation failed", errors });
             }
+
+            var performanceGoal = new PerformanceGoal
+            {
+                Id = performanceGoalDto.Id,
+                EmployeeId = performanceGoalDto.EmployeeId,
+                GoalTitle = performanceGoalDto.GoalTitle,
+                Description = performanceGoalDto.Description,
+                DueDate = performanceGoalDto.DueDate,
+                Status = performanceGoalDto.Status
+            };
 
             _context.PerformanceGoals.Add(performanceGoal);
             await _context.SaveChangesAsync();
 
-            // Use GetGoals instead of GetPerformanceGoal (assuming it's a typo unless defined)
             return CreatedAtAction(nameof(GetGoals), new { id = performanceGoal.Id }, performanceGoal);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGoal(int id, PerformanceGoal goal)
+        public async Task<IActionResult> UpdateGoal(int id, PerformanceGoalDto goalDto)
         {
-            if (id != goal.Id)
+            if (id != goalDto.Id)
             {
                 return BadRequest();
             }
@@ -55,10 +73,11 @@ namespace PerformanceManagementApi.Controllers
                 return NotFound();
             }
 
-            existingGoal.GoalTitle = goal.GoalTitle;
-            existingGoal.Description = goal.Description;
-            existingGoal.DueDate = goal.DueDate;
-            existingGoal.Status = goal.Status;
+            existingGoal.EmployeeId = goalDto.EmployeeId;
+            existingGoal.GoalTitle = goalDto.GoalTitle;
+            existingGoal.Description = goalDto.Description;
+            existingGoal.DueDate = goalDto.DueDate;
+            existingGoal.Status = goalDto.Status;
 
             try
             {

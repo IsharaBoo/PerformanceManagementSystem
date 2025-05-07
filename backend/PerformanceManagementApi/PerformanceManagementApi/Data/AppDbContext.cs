@@ -17,6 +17,7 @@ namespace PerformanceManagementApi.Data
                 .WithMany(e => e.PerformanceGoals)
                 .HasForeignKey(g => g.EmployeeId);
 
+            // Seeding data
             modelBuilder.Entity<Employee>().HasData(
                 new Employee { Id = 1, FullName = "John Doe", Department = "IT" },
                 new Employee { Id = 2, FullName = "Jane Smith", Department = "HR" }
@@ -29,7 +30,7 @@ namespace PerformanceManagementApi.Data
                     EmployeeId = 1,
                     GoalTitle = "Complete API",
                     Description = "Build REST API",
-                    DueDate = new DateTime(2025, 6, 1), // Static date
+                    DueDate = new DateTime(2025, 6, 1),
                     Status = GoalStatus.NotStarted
                 },
                 new PerformanceGoal
@@ -38,7 +39,7 @@ namespace PerformanceManagementApi.Data
                     EmployeeId = 1,
                     GoalTitle = "Unit Tests",
                     Description = "Write unit tests",
-                    DueDate = new DateTime(2025, 5, 17), // Static date
+                    DueDate = new DateTime(2025, 5, 17),
                     Status = GoalStatus.InProgress
                 },
                 new PerformanceGoal
@@ -47,7 +48,7 @@ namespace PerformanceManagementApi.Data
                     EmployeeId = 2,
                     GoalTitle = "Onboarding",
                     Description = "Create onboarding plan",
-                    DueDate = new DateTime(2025, 5, 22), // Static date
+                    DueDate = new DateTime(2025, 5, 22),
                     Status = GoalStatus.NotStarted
                 }
             );

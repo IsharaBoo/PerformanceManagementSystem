@@ -6,6 +6,11 @@
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  background: #f0f3f5;
+}
+
+/* Main App Container */
 .App {
   max-width: 900px;
   margin: 40px auto;
@@ -15,23 +20,27 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header styling */
+/* Header Styling */
 h1 {
   text-align: center;
   color: #2c3e50;
   margin-bottom: 30px;
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 h2 {
   color: #34495e;
   margin: 20px 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 500;
+  text-transform: capitalize;
+  margin-bottom: 20px; /* Added space after heading */
 }
 
-/* Error message */
+/* Error Message Styling */
 p[style*="color: red"] {
   text-align: center;
   background-color: #ffe6e6;
@@ -40,76 +49,129 @@ p[style*="color: red"] {
   margin-bottom: 20px;
 }
 
-/* Form styling */
+/* Form Styling */
 form {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px 50px; /* Add space between labels and input fields */
   margin-bottom: 30px;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+form div {
+  flex: 1;
+  min-width: 200px; /* Ensure each form item has a minimum width */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between label and input */
+}
+
+form label {
+  font-weight: 600;
+  color: #34495e;
 }
 
 select,
 input[type="text"],
 input[type="date"] {
-  padding: 10px;
-  border: 1px solid #dcdcdc;
-  border-radius: 5px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   font-size: 1rem;
-  flex: 1;
-  min-width: 200px;
-  transition: border-color 0.3s ease;
+  width: 100%; /* Ensure inputs take full width inside their container */
+  
 }
 
 select:focus,
 input:focus {
   outline: none;
   border-color: #3498db;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+  transform: scale(1.05);
+}
+
+
+form:hover {
+  transform: translateY(-5px);
+}
+
+form label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  flex-basis: 100%; /* Makes the label take up the full width */
+  color: #34495e;
+}
+
+select,
+input[type="text"],
+input[type="date"] {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 200px;
+  transition: all 0.3s ease-in-out;
+}
+
+select:focus,
+input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+  transform: scale(1.05);
 }
 
 button {
-  padding: 10px 20px;
+  padding: 8px 16px; /* Reduced padding */
   background-color: #3498db;
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Smaller font size */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 15px; /* Space between form input fields and button */
 }
 
 button:hover {
   background-color: #2980b9;
+  transform: scale(1.05);
 }
 
-/* Employee list styling */
+button:active {
+  transform: scale(1);
+}
+
+/* Employee List Styling (Larger Cards) */
 ul {
   list-style: none;
 }
 
 ul li {
   background-color: #ffffff;
-  margin: 15px 0;
-  padding: 20px;
+  margin: 20px 0; /* More margin between cards */
+  padding: 25px; /* More padding to make the card larger */
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0; /* Initially hidden */
+  animation: fadeIn 0.5s forwards;
 }
 
 ul li:hover {
-  transform: translateY(-2px);
+  transform: translateY(-6px); /* Slightly bigger hover effect */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
 }
 
 ul li strong {
   color: #2c3e50;
-  font-size: 1.2rem;
+  font-size: 1.3rem; /* Increased font size of employee name */
 }
 
-/* Nested goals list */
 ul li ul {
   margin-top: 10px;
   padding-left: 20px;
@@ -132,29 +194,34 @@ ul li ul li:hover {
   transform: none;
 }
 
-/* No goals message */
 ul li p {
   color: #7f8c8d;
   font-style: italic;
   margin-top: 10px;
 }
 
-/* Loading message */
 p:not([style*="color: red"]) {
   text-align: center;
   color: #7f8c8d;
   font-size: 1.1rem;
 }
 
-/* Responsive design */
+/* Fade-in Animation for List Items */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
 @media (max-width: 600px) {
   .App {
-    margin: 20px;
+    margin: 10px;
     padding: 15px;
   }
 
   h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   h2 {
@@ -169,5 +236,9 @@ p:not([style*="color: red"]) {
   input[type="text"],
   input[type="date"] {
     min-width: 100%;
+  }
+
+  button {
+    width: 100%;
   }
 }
