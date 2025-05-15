@@ -14,41 +14,53 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Debug project directory structure
+      run: |
+        echo "Root directory contents:"
+        ls -la
+        echo "All subdirectories:"
+        find . -type d
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0' # Updated to 8.0 to support .NET 8.0
+        dotnet-version: '8.0'
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '18'  # Upgraded to support Playwright 1.52.0+
 
-    - name: Install dependencies
+    - name: Install .NET dependencies
       run: |
         dotnet restore backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
-        cd frontend/performance-management-client && npm install
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend/performance-management-client
+        npm install
 
     - name: Install Playwright
       run: |
-        cd frontend/performance-management-client && npm install -g @playwright/test
-        cd frontend/performance-management-client && npx playwright install
+        cd frontend/performance-management-client
+        npm install -g @playwright/test
+        npx playwright install
 
-    - name: Debug directory
-      run: ls -la frontend/performance-management-client
-
-    - name: Set up SonarQube Scanner
+    - name: Run SonarQube Scanner setup
       run: |
         dotnet tool install --global dotnet-sonarscanner
-        export PATH="$PATH:/home/runner/.dotnet/tools"
+        echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
     - name: Run SonarQube analysis
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: sonar-scanner
 
-    - name: Run XUnit tests
-      run: dotnet test backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
+    - name: Run backend tests (XUnit)
+      run: |
+        dotnet test backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
 
-    - name: Run Playwright tests
-      run: cd frontend/performance-management-client && npx playwright test
+    - name: Run frontend tests (Playwright)
+      run: |
+        cd frontend/performance-management-client
+        npx playwright test
