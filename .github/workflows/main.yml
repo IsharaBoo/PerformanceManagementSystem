@@ -26,16 +26,16 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm install
         dotnet restore backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
+        cd frontend/performance-management-client && npm install
 
     - name: Install Playwright
       run: |
-        npm install -g @playwright/test
-        npx playwright install
+        cd frontend/performance-management-client && npm install -g @playwright/test
+        cd frontend/performance-management-client && npx playwright install
 
     - name: Debug directory
-      run: ls -la backend/PerformanceManagementApi/PerformanceManagementApi
+      run: ls -la frontend/performance-management-client
 
     - name: Set up SonarQube Scanner
       run: |
@@ -51,4 +51,4 @@ jobs:
       run: dotnet test backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
 
     - name: Run Playwright tests
-      run: npx playwright test
+      run: cd frontend/performance-management-client && npx playwright test
