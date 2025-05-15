@@ -1,0 +1,45 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0'
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '15' 
+
+    - name: Install dependencies
+      run: |
+        npm install
+        dotnet restore
+
+    - name: Install Playwright
+      run: |
+        npm install -g @playwright/test
+        npx playwright install
+
+    - name: Run SonarQube analysis
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: sonar-scanner
+
+    - name: Run XUnit tests
+      run: dotnet test
+
+    - name: Run Playwright tests
+      run: npx playwright test
