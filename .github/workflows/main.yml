@@ -18,20 +18,29 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '6.0'
+
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '15' 
+        node-version: '16'
 
     - name: Install dependencies
       run: |
         npm install
-        dotnet restore
+        dotnet restore backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
 
     - name: Install Playwright
       run: |
         npm install -g @playwright/test
         npx playwright install
+
+    - name: Debug directory
+      run: ls -la backend/PerformanceManagementApi/PerformanceManagementApi
+
+    - name: Set up SonarQube Scanner
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
+        export PATH="$PATH:/home/runner/.dotnet/tools"
 
     - name: Run SonarQube analysis
       env:
@@ -39,7 +48,7 @@ jobs:
       run: sonar-scanner
 
     - name: Run XUnit tests
-      run: dotnet test
+      run: dotnet test backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
 
     - name: Run Playwright tests
       run: npx playwright test
