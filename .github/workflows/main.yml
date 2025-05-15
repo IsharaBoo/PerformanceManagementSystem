@@ -29,7 +29,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Upgraded to support Playwright 1.52.0+
+        node-version: '18'
 
     - name: Install .NET dependencies
       run: |
@@ -46,15 +46,24 @@ jobs:
         npm install -g @playwright/test
         npx playwright install
 
-    - name: Run SonarQube Scanner setup
+    - name: Setup SonarScanner for .NET
       run: |
         dotnet tool install --global dotnet-sonarscanner
         echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
-    - name: Run SonarQube analysis
+    - name: Run SonarCloud analysis
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: sonar-scanner
+      run: |
+        dotnet sonarscanner begin \
+          /k:"IsharaBoo_PerformanceManagementSystem" \
+          /o:"IsharaBoo" \
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+          /d:sonar.host.url="https://sonarcloud.io"
+
+        dotnet build backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
+
+        dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
     - name: Run backend tests (XUnit)
       run: |
