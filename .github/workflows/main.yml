@@ -43,8 +43,7 @@ jobs:
     - name: Install Playwright
       run: |
         cd frontend/performance-management-client
-        npm install -g @playwright/test
-        npx playwright install
+        npx playwright install --with-deps
 
     - name: Setup SonarScanner for .NET
       run: |
@@ -72,4 +71,4 @@ jobs:
     - name: Run frontend tests (Playwright)
       run: |
         cd frontend/performance-management-client
-        npx playwright test
+        npm test
