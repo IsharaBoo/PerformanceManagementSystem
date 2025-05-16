@@ -40,24 +40,11 @@ jobs:
         cd frontend/performance-management-client
         npm install
 
-    - name: Run frontend unit tests (Jest)
-      run: |
-        cd frontend/performance-management-client
-        npm test -- --watchAll=false
-
     - name: Install Playwright
       run: |
         cd frontend/performance-management-client
         npm install -g @playwright/test
         npx playwright install
-
-    - name: Run Playwright E2E tests
-      run: |
-        cd frontend/performance-management-client
-        npm run build
-        npx serve -s build &  # serve React build in background
-        sleep 5               # wait for server to start
-        npx playwright test
 
     - name: Setup SonarScanner for .NET
       run: |
@@ -81,3 +68,8 @@ jobs:
     - name: Run backend tests (XUnit)
       run: |
         dotnet test backend/PerformanceManagementApi/PerformanceManagementApi/PerformanceManagementApi.csproj
+
+    - name: Run frontend tests (Playwright)
+      run: |
+        cd frontend/performance-management-client
+        npx playwright test
